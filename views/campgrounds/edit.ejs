@@ -1,0 +1,94 @@
+<% layout('layouts/boilerplate') %>
+
+    <div class="row">
+        <h1 class="text-center">Edit Campground</h1>
+        <div class="col-md-6 offset-md-3">
+            <form action="/campgrounds/<%= campground._id %>?_method=PUT" method="POST" class="needs-validation" novalidate enctype="multipart/form-data">
+                <div class="mb-3">
+                    <label for="title" class="form-label">Title</label>
+                    <input type="text" id="title" name="campground[title]" class="form-control" value="<%= campground.title %>" required>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                    <div class="invalid-feedback">
+                        Please enter a title!
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="location" class="form-label">Location</label>
+                    <input type="text" id="location" name="campground[location]" class="form-control" value="<%= campground.location %>" required>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                    <div class="invalid-feedback">
+                        Please enter a location!
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="price" class="form-label">Campground Price</label>
+                    <div class="input-group">
+                        <span class="input-group-text" id="price-label">$</span>
+                        <input type="text" id="price" name="campground[price]" class="form-control" placeholder="0" aria-label="price" aria-describedby="price-label" value="<%= campground.price %>" required>
+                        <div class="valid-feedback">
+                            Looks good!
+                        </div>
+                        <div class="invalid-feedback">
+                            Please enter price!
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="description" class="form-label">Description</label>
+                    <textarea type="text" id="description" name="campground[description]" class="form-control" required><%= campground.description %></textarea>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                    <div class="invalid-feedback">
+                        Please enter description!
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="formFile" class="form-label">Add image(s)...</label>
+                    <input class="form-control" type="file" id="image" name="image" multiple>
+                </div>
+                <div class="mb-3">
+                    <% campground.image.forEach(function (img, i) { %>
+                        <img src="<%= img.thumbnail %>" class="img-thumbnail">
+                        <div class="form-check-inline">
+                            <input type="checkbox" id="image-<%= i %>" name="deleteImages[]" value="<%= img.filename %>">
+                        </div>
+                        <label for="image-<%= i %>">Delete?</label>
+                        <% }) %>
+                </div>
+
+                <div class="mb-3">
+                    <button class="btn btn-success">Update Campground</button>
+                </div>
+            </form>
+            <a href="/campgrounds/<%= campground._id %>">Back To Campground</a>
+        </div>
+    </div>
+
+
+    <script>
+        // Example starter JavaScript for disabling form submissions if there are invalid fields
+        (function() {
+            'use strict'
+
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            const forms = document.querySelectorAll('.needs-validation')
+
+            // Loop over them and prevent submission
+            Array.from(forms)
+                .forEach(function(form) {
+                    form.addEventListener('submit', function(event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault()
+                            event.stopPropagation()
+                        }
+
+                        form.classList.add('was-validated')
+                    }, false)
+                })
+        })()
+    </script>
